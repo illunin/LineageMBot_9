@@ -890,14 +890,15 @@ class taskCog(commands.Cog):
 	async def command_task_list(self, ctx : commands.Context):
 		if ctx.message.channel.id != basicSetting[7]:
 			return
-
-		for t in asyncio.Task.all_tasks():
+			
+		for t in asyncio.all_tasks():
 			# print(t._coro.__name__)
 			if t._coro.__name__ == f"boss_check":
 				if t.done():
 					try:
 						t.exception()
 					except asyncio.CancelledError:
+						print("CancelledError")
 						continue
 					continue
 				t.cancel()
